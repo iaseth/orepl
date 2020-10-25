@@ -5,6 +5,6 @@
 int
 main(int argc, char const *argv[])
 {
-	printf("Hello, Orepl!\n");
+	orepl();
 	return 0;
 }
