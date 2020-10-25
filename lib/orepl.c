@@ -31,8 +31,19 @@ orepl ()
 		input[length] = '\0';
 
 		if (input[0] == '.') {
-			if (strcmp(input + 1, OREPL_COMMAND_EXIT) == 0) {
+			char *command = input + 1;
+			if (strcmp(command, OREPL_COMMAND_BREAK) == 0) {
+				printf("Lets break up.\n");
+			} else if (strcmp(command, OREPL_COMMAND_EXIT) == 0) {
 				break;
+			} else if (strcmp(command, OREPL_COMMAND_HELP) == 0) {
+				printf("Help yourself.\n");
+			} else if (strcmp(command, OREPL_COMMAND_LOAD) == 0) {
+				printf("Loading ...\n");
+			} else if (strcmp(command, OREPL_COMMAND_SAVE) == 0) {
+				printf("Saving ...\n");
+			} else if (strcmp(command, OREPL_COMMAND_VERSION) == 0) {
+				printf("Orepl is on 0.1.0 (electric-guitar).\n");
 			} else {
 				printf("Not a command: '%s'\n", input);
 			}
