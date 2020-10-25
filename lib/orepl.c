@@ -30,8 +30,12 @@ orepl ()
 		int length = strlen(input) - 1;
 		input[length] = '\0';
 
-		if (strcmp(input, OREPL_COMMAND_EXIT) == 0) {
-			break;
+		if (input[0] == '.') {
+			if (strcmp(input + 1, OREPL_COMMAND_EXIT) == 0) {
+				break;
+			} else {
+				printf("Not a command: '%s'\n", input);
+			}
 		} else {
 			printf("Command: '%s'\n", input);
 		}
