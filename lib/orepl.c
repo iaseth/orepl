@@ -1,17 +1,10 @@
 #include "orepl.h"
 
+#include "orepl_lexer.h"
+#include "orepl_commands.h"
+
 #include <stdio.h>
 #include <string.h>
-
-char *OREPL_WELCOME_TEXT = "Welcome to Orepl!";
-char *OREPL_FAREWELL_TEXT = "Bye.";
-
-char *OREPL_COMMAND_BREAK   = "break";
-char *OREPL_COMMAND_EXIT    = "exit";
-char *OREPL_COMMAND_HELP    = "help";
-char *OREPL_COMMAND_LOAD    = "load";
-char *OREPL_COMMAND_SAVE    = "save";
-char *OREPL_COMMAND_VERSION = "version";
 
 
 
@@ -19,6 +12,7 @@ void
 orepl ()
 {
 	char input[OREPL_MAX_INPUT_LENGTH] = "";
+	struct OreplTokenList *token_list = NULL;
 
 	printf("%s\n", OREPL_WELCOME_TEXT);
 	while (1) {
@@ -48,7 +42,15 @@ orepl ()
 				printf("Not a command: '%s'\n", input);
 			}
 		} else {
-			printf("Command: '%s'\n", input);
+			token_list = orepl_get_tokens(input);
+			//printf("%d tokens found.\n", token_list->number_of_tokens);
+
+			struct OreplToken *token = token_list->first_token;
+			while (token != NULL) {
+				printf("Token #x\n");
+				token = token->next;
+			}
+			token_list = orepl_free_tokens(token_list);
 		}
 	}
 	printf("%s\n", OREPL_FAREWELL_TEXT);
