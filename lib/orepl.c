@@ -17,10 +17,18 @@ orepl ()
 
 	printf("%s\n", OREPL_WELCOME_TEXT);
 	while (1) {
+		// the prompt
 		printf("=> ");
-		scanf("%s", input);
+
+		fgets(input, OREPL_MAX_INPUT_LENGTH, stdin);
+		// remove newline at the end
+		int length = strlen(input) - 1;
+		input[length] = '\0';
+
 		if (strcmp(input, OREPL_COMMAND_EXIT) == 0) {
 			break;
+		} else {
+			printf("Command: '%s'\n", input);
 		}
 	}
 	printf("%s\n", OREPL_FAREWELL_TEXT);
