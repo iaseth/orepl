@@ -11,6 +11,7 @@ RM = ${AMP}rm -f
 
 OREPL_NAMES = 
 OREPL_NAMES += orepl
+OREPL_NAMES += orepl_lexer
 
 OREPL_OBJ_NAMES = ${addsuffix .o, ${OREPL_NAMES}}
 OREPL_OBJS = ${addprefix build/, ${OREPL_OBJ_NAMES}}
