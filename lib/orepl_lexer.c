@@ -232,6 +232,9 @@ orepl_free_tokens (struct OreplTokenList *token_list)
 		struct OreplToken *token = token_list->first_token;
 		while (token != NULL) {
 			struct OreplToken *temp_token = token;
+			if (temp_token->ch == '\0') {
+				free(temp_token->text);
+			}
 			token = token->next;
 			free(temp_token);
 		}
