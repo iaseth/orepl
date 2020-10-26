@@ -45,15 +45,18 @@ orepl ()
 			token_list = orepl_get_tokens(input);
 			//printf("%d tokens found.\n", token_list->number_of_tokens);
 
+			int index = 0;
 			struct OreplToken *token = token_list->first_token;
 			while (token != NULL) {
+				printf("Token #%d ", index+1);
 				if (token->ch == 0) {
-					printf("Token #x \"%s\"\n", token->text);
+					printf("\"%s\"\n", token->text);
 				} else {
-					printf("Token #x '%c'\n", token->ch);
+					printf("'%c'\n", token->ch);
 				}
 
 				token = token->next;
+				index++;
 			}
 			token_list = orepl_free_tokens(token_list);
 		}
