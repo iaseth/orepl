@@ -7,8 +7,11 @@
 
 struct OreplToken {
 	enum OreplTokenType token_type;
+
 	struct OreplToken *next;
 	struct OreplToken *prev;
+
+	char ch;
 	char *text;
 };
 

@@ -24,6 +24,7 @@ orepl_get_tokens (char *code)
 			current_token->next = NULL;
 			current_token->prev = NULL;
 			current_token->text = NULL;
+			current_token->ch = '\0';
 		}
 
 		switch (ch) {
@@ -183,7 +184,7 @@ orepl_get_tokens (char *code)
 		}
 
 		if (current_token->token_type != OREPL_TOKEN_NONE) {
-			printf("Token found '%c'\n", ch);
+			current_token->ch = ch;
 			if (token_list->number_of_tokens == 0) {
 				token_list->first_token = current_token;
 				token_list->last_token = current_token;

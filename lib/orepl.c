@@ -47,7 +47,7 @@ orepl ()
 
 			struct OreplToken *token = token_list->first_token;
 			while (token != NULL) {
-				printf("Token #x\n");
+				printf("Token #x '%c'\n", token->ch);
 				token = token->next;
 			}
 			token_list = orepl_free_tokens(token_list);
