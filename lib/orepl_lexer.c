@@ -16,6 +16,7 @@ orepl_get_tokens (char *code)
 	token_list->last_token = NULL;
 
 	struct OreplToken *current_token = NULL;
+	int current_token_length = 1;
 
 	while (ch != '\0') {
 		if (current_token == NULL) {
@@ -25,6 +26,7 @@ orepl_get_tokens (char *code)
 			current_token->prev = NULL;
 			current_token->text = NULL;
 			current_token->ch = '\0';
+			current_token_length = 1;
 		}
 
 		switch (ch) {
@@ -152,39 +154,53 @@ orepl_get_tokens (char *code)
 					&& !isalnum(code[index+5])
 				) {
 					current_token->token_type = OREPL_TOKEN_CONST;
-					index += 4;
+					current_token_length = 5;
 				} else if (code[index] == 'l'
 					&& code[index+1] == 'e' && code[index+2] == 't'
 					&& !isalnum(code[index+3])
 				) {
 					current_token->token_type = OREPL_TOKEN_LET;
-					index += 2;
+					current_token_length = 3;
 				} else if (code[index] == 't'
 					&& code[index+1] == 'r' && code[index+2] == 'u'
 					&& code[index+3] == 'e' && !isalnum(code[index+4])
 				) {
 					current_token->token_type = OREPL_TOKEN_TRUE;
-					index += 3;
+					current_token_length = 4;
 				} else if (code[index] == 'f'
 					&& code[index+1] == 'a' && code[index+2] == 'l'
 					&& code[index+3] == 's' && code[index+4] == 'e'
 					&& !isalnum(code[index+5])
 				) {
 					current_token->token_type = OREPL_TOKEN_FALSE;
-					index += 4;
+					current_token_length = 5;
 				} else if (code[index] == 'n'
 					&& code[index+1] == 'u' && code[index+2] == 'l'
 					&& code[index+3] == 'l' && !isalnum(code[index+4])
 				) {
 					current_token->token_type = OREPL_TOKEN_NULL;
-					index += 3;
+					current_token_length = 4;
 				} else {
-					//
+					current_token->token_type = OREPL_TOKEN_IDENTIFIER;
+					current_token_length = 0;
+					char *x = &code[index];
+					while (isalnum(*x++)) {
+						current_token_length++;
+					}
 				}
 		}
 
 		if (current_token->token_type != OREPL_TOKEN_NONE) {
-			current_token->ch = ch;
+			if (current_token_length == 1) {
+				current_token->ch = ch;
+			} else {
+				current_token->text = malloc(sizeof(char) * (current_token_length + 1));
+				for (int i = 0; i < current_token_length; ++i) {
+					current_token->text[i] = code[index + i];
+				}
+				current_token->text[current_token_length] = '\0';
+			}
+
 			if (token_list->number_of_tokens == 0) {
 				token_list->first_token = current_token;
 				token_list->last_token = current_token;
@@ -197,7 +213,7 @@ orepl_get_tokens (char *code)
 			current_token = NULL;
 		}
 
-		index++;
+		index += current_token_length;
 		ch = code[index];
 	}
 
